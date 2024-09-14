@@ -32,16 +32,4 @@ export async function GET() {
     data: marketResultList,
   });
   return ResultResponse(ma);
-  // return ResultResponse(
-  //   (res || []).map((item) => {
-  //     const info = item.Result.stock.find((item) =>
-  //       data.find((el) => el.symbol === item.code && el.sname === item.name)
-  //     );
-  //     return {
-  //       symbol: info?.code || "",
-  //       sname: info?.name || "",
-  //       ratio: info?.ratio || "",
-  //     };
-  //   })
-  // );
 }

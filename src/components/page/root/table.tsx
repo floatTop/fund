@@ -1,6 +1,9 @@
+'use client'
+import { initFund } from "@/app/(pages)/api";
 import { FundList } from "@/app/api/list/type";
 import ProTable from "@/components/ProTable/ProTable";
 import { TableColumn } from "@/components/ProTable/type";
+import { Button } from "@/components/ui/button";
 import { useCallback, useMemo } from "react";
 
 export default async function RootTable({
@@ -36,11 +39,20 @@ export default async function RootTable({
     ];
   }, [renderItem]);
   return (
-    <ProTable
-      title="我的自选"
-      columns={columns}
-      dataSource={fundList}
-      rowKey={(value: FundList) => value.symbol}
-    ></ProTable>
+    <>
+      <Button
+        onClick={() => {
+          initFund();
+        }}
+      >
+        init
+      </Button>
+      <ProTable
+        title="我的自选"
+        columns={columns}
+        dataSource={fundList}
+        rowKey={(value: FundList) => value.symbol}
+      ></ProTable>
+    </>
   );
 }
