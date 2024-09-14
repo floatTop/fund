@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { initFund, market } from "@/app/(pages)/api";
 import { FundList } from "@/app/api/list/type";
 import ProTable from "@/components/ProTable/ProTable";
@@ -40,20 +40,23 @@ export default async function RootTable({
   }, [renderItem]);
   return (
     <>
-      <Button
-        onClick={() => {
-          initFund();
-        }}
-      >
-        init
-      </Button>
-      <Button
-        onClick={() => {
-          market();
-        }}
-      >
-        add market
-      </Button>
+      <div className="flex justify-between">
+        <Button
+          onClick={() => {
+            initFund();
+          }}
+        >
+          init
+        </Button>
+        <Button
+          onClick={() => {
+            market();
+          }}
+        >
+          add market
+        </Button>
+      </div>
+
       <ProTable
         title="我的自选"
         columns={columns}
