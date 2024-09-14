@@ -14,3 +14,10 @@ export function getFundList() {
     method: "get",
   });
 }
+
+export function market() {
+  return request({
+    url: "/api/market",
+    method: "get",
+  });
+}

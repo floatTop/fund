@@ -1,5 +1,5 @@
 'use client'
-import { initFund } from "@/app/(pages)/api";
+import { initFund, market } from "@/app/(pages)/api";
 import { FundList } from "@/app/api/list/type";
 import ProTable from "@/components/ProTable/ProTable";
 import { TableColumn } from "@/components/ProTable/type";
@@ -46,6 +46,13 @@ export default async function RootTable({
         }}
       >
         init
+      </Button>
+      <Button
+        onClick={() => {
+          market();
+        }}
+      >
+        add market
       </Button>
       <ProTable
         title="我的自选"
