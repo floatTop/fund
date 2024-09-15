@@ -12,6 +12,7 @@ export function getFundList() {
   return request<FundList[]>({
     url: "/api/list",
     method: "get",
+    timeout: 10000
   });
 }
 
