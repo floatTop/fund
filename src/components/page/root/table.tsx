@@ -1,16 +1,18 @@
 "use client";
-import { initFund, market } from "@/app/(pages)/api";
+import { getFundList, initFund, market } from "@/app/(pages)/api";
 import { FundList } from "@/app/api/list/type";
 import ProTable from "@/components/ProTable/ProTable";
 import { TableColumn } from "@/components/ProTable/type";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 
-export default async function RootTable({
-  fundList,
-}: {
-  fundList: FundList[];
-}) {
+export default function RootTable({ fundList }: { fundList: FundList[] }) {
+  const { data } = useQuery({
+    queryKey: ["getFundList"],
+    queryFn: () => getFundList(),
+    initialData: fundList,
+  });
   const renderItem = useCallback((text: React.ReactNode, ratio: string) => {
     const color =
       Number(ratio.replace("%", "")) > 0
@@ -60,7 +62,7 @@ export default async function RootTable({
       <ProTable
         title="我的自选"
         columns={columns}
-        dataSource={fundList}
+        dataSource={data}
         rowKey={(value: FundList) => value.symbol}
       ></ProTable>
     </>
