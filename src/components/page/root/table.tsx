@@ -58,7 +58,7 @@ export default function RootTable({ fundList }: { fundList: FundList[] }) {
           add market
         </Button>
       </div>
-
+----
       <ProTable
         title="我的自选"
         columns={columns}
