@@ -3,8 +3,8 @@ import { getFundList } from "./api";
 
 export default async function Page() {
   console.log('getFundList')
-  const res = await getFundList().catch((e) => {
-    console.log("catch", e);
+  const res = await getFundList().catch(() => {
+    console.log("catch");
     return [];
   });
   console.log("res", res);

@@ -1,17 +1,14 @@
-import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
+import { prisma } from "../global";
 import { getOpenData } from "../http/opendata/getOpenData";
 import ResultResponse from "../utils/ResultResponse";
 
 export async function GET() {
-  const prisma = new PrismaClient();
   const data = await prisma.position.findMany();
 
-  const res = await Promise.all(
-    data
-      .filter((item) => item.exchange === "FD")
-      .map((item) => getOpenData(item.symbol))
-  );
+  const FDData = data.filter((item) => item.exchange === "FD");
+
+  const res = await Promise.all(FDData.map((item) => getOpenData(item.symbol)));
 
   const marketResultList = res.map((item, index) => {
     const marketList =
@@ -21,15 +18,15 @@ export async function GET() {
     const price = lastMarket![1];
     const increase = lastMarket![2];
     return {
-      marketTime: dayjs(marketTime).format(),
+      market_time: dayjs(marketTime).format(),
       price,
       increase,
-      symbol: data[index].symbol,
+      symbol: FDData[index].symbol,
     };
   });
-
   const ma = await prisma.market.createManyAndReturn({
     data: marketResultList,
   });
+  console.log(ma)
   return ResultResponse(ma);
 }

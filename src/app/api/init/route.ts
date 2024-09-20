@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../global";
+import request from "../http/request";
 import ResultResponse from "../utils/ResultResponse";
 import { Gethomeinfo } from "./httpType";
-import request from "../http/request";
 
 export async function POST() {
-  const prisma = new PrismaClient();
   const { Result: data } = await request<Gethomeinfo>({
     url: "https://finance.pae.baidu.com/selfselect/gethomeinfo",
     method: "GET",

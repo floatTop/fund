@@ -26,17 +26,39 @@ export default function RootTable({ fundList }: { fundList: FundList[] }) {
       {
         title: "code",
         dataIndex: "symbol",
-        render: (value) => renderItem(value.symbol, value.ratio),
+        render: (value) => renderItem(value.symbol, value.increase),
       },
       {
         title: "name",
         dataIndex: "sname",
-        render: (value) => renderItem(value.sname, value.ratio),
+        render: (value) => renderItem(value.sname, value.increase),
+      },
+      {
+        title: "positionCost",
+        dataIndex: "positionCost",
+        render: (value) => {
+          return !!value?.positionCost && !!value?.price
+            ? (
+                ((Number(value?.price) - value?.positionCost) /
+                  value?.positionCost) *
+                100
+              ).toFixed(2) + "%"
+            : 0;
+        },
+      },
+      {
+        title: "",
+        dataIndex: "",
+        render: (value) => {
+          return !!value?.positionCost && !!value?.price
+            ? value.balance / value?.positionCost * Number()
+            : 0;
+        },
       },
       {
         title: "ratio",
         dataIndex: "ratio",
-        render: (value) => renderItem(value.ratio, value.ratio),
+        render: (value) => renderItem(value.increase, value.increase),
       },
     ];
   }, [renderItem]);
@@ -58,7 +80,7 @@ export default function RootTable({ fundList }: { fundList: FundList[] }) {
           add market
         </Button>
       </div>
-----
+      ----
       <ProTable
         title="我的自选"
         columns={columns}

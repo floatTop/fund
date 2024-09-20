@@ -5,7 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["typedSql"]
+  // output          = "../generated/client"
 }
 
 datasource db {
@@ -18,17 +20,17 @@ model position {
   symbol        String @id
   sname         String
   exchange      String
-  position_cost Int?
-  balance       Int?
+  position_cost Float?
+  balance       Float?
 
   @@index([symbol], map: "symbol")
 }
 
 model market {
-  id         Int      @id @default(autoincrement())
-  symbol     String
-  updateTime DateTime @updatedAt
-  marketTime DateTime
-  price      String
-  increase   String
+  id          Int      @id @default(autoincrement())
+  symbol      String
+  update_time DateTime @updatedAt
+  market_time DateTime
+  price       String
+  increase    String
 }

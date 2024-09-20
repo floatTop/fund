@@ -1,27 +1,19 @@
-import { PrismaClient } from "@prisma/client";
-import { getSug } from "../http/sug/getSug";
+import { getMarket } from "@prisma/client/sql";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { prisma } from "../global";
 import ResultResponse from "../utils/ResultResponse";
+
+dayjs.extend(utc);
+
 // : Promise<Result<FundList[]>>
 export async function GET() {
-  const prisma = new PrismaClient();
-  const data = await prisma.position.findMany();
+  const start = dayjs.utc().startOf("day");
+  const end = dayjs.utc().endOf("day");
 
-  const res = await Promise.all(
-    data
-      .filter((item) => item.exchange === "FD")
-      .map((item) => getSug(item.symbol))
+  const data = await prisma.$queryRawTyped(
+    getMarket(start.toDate(), end.toDate())
   );
-
-  return ResultResponse(
-    (res || []).map((item) => {
-      const info = item.Result.stock.find((item) =>
-        data.find((el) => el.symbol === item.code && el.sname === item.name)
-      );
-      return {
-        symbol: info?.code || "",
-        sname: info?.name || "",
-        ratio: info?.ratio || "",
-      };
-    })
-  );
+  console.log(data);
+  return ResultResponse(data);
 }
